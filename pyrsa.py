@@ -1,6 +1,7 @@
 import random
 
 
+# 密钥的产生
 def key_gen():
     p = prime_gen(1000)
     q = prime_gen(1000)
@@ -13,6 +14,7 @@ def key_gen():
     return pub_key, pri_key
 
 
+# 素数的产生
 def prime_gen(prime_range):
     while True:
         result = random.randint(2, prime_range)
@@ -20,16 +22,17 @@ def prime_gen(prime_range):
             return result
 
 
+# 费马素性检验
 def fermat_primality_test(m, k):
     for i in range(k):
         a = random.randint(2, m - 2)
         g = ex_euclid(a, m)[0]
-        if g == 1:
+        if g != 1:
+            return False
+        else:
             r = a ** (m - 1) % m
             if r != 1:
                 return False
-        else:
-            return False
     return True
 
 
@@ -38,7 +41,7 @@ def fermat_primality_test(m, k):
 #         num1, num2 = num2, num1 % num2
 #     return num1
 
-
+# e的产生, 1 < e < phi_n, gcd(phi_n, e) = 1
 def e_gen(phi_n):
     while True:
         e = random.randint(2, phi_n)
@@ -46,11 +49,18 @@ def e_gen(phi_n):
             return e
 
 
+# d的产生, d * e === 1 mod phi_n
 def d_gen(phi_n, e):
     return ex_euclid(phi_n, e)[2]
 
 
+# 扩展欧几里得算法
 def ex_euclid(a, b):
+    """
+    :param a: 整数
+    :param b: 整数, a > b >= 0
+    :return: gcd(a, b), x0, y0, 使得ax0 + by0 = gcd(a, b)
+    """
     if a < b:
         a, b = b, a
     x1, x2, x3 = 1, 0, a
@@ -65,7 +75,14 @@ def ex_euclid(a, b):
     return x3, x1, x2
 
 
+# 快速模平方算法
 def fast_mod(x, a, n):
+    """
+    :param x: 整数
+    :param a: 整数, a > 0
+    :param n: 整数, n > 1
+    :return: x ** a mod n
+    """
     a = bin(a)[2:]
     y = 1
     for i in range(len(a)):
@@ -75,12 +92,14 @@ def fast_mod(x, a, n):
     return y
 
 
-def encrypt(m, pub_key):
-    return fast_mod(m, pub_key[0], pub_key[1])
+# 加密
+def encrypt(plain_text, pub_key):
+    return fast_mod(plain_text, pub_key[0], pub_key[1])
 
 
-def decrypt(c, pri_key):
-    return fast_mod(c, pri_key[0], pri_key[1])
+# 解密
+def decrypt(cipher_text, pri_key):
+    return fast_mod(cipher_text, pri_key[0], pri_key[1])
 
 
 if __name__ == '__main__':
