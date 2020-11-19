@@ -26,25 +26,30 @@ def prime_gen(prime_range):
 def fermat_primality_test(m, k):
     for i in range(k):
         a = random.randint(2, m - 2)
+        # g = gcd(a, m)
         g = ex_euclid(a, m)[0]
         if g != 1:
             return False
         else:
-            r = a ** (m - 1) % m
+            # r = a ** (m - 1) % m
+            r = fast_mod(a, m - 1, m)
             if r != 1:
                 return False
     return True
 
 
-# def gcd(num1, num2):
-#     while num2:
-#         num1, num2 = num2, num1 % num2
-#     return num1
+# # 欧几里得算法
+# def gcd(a, b):
+#     while b:
+#         a, b = b, a % b
+#     return a
+
 
 # e的产生, 1 < e < phi_n, gcd(phi_n, e) = 1
 def e_gen(phi_n):
     while True:
         e = random.randint(2, phi_n)
+        # if gcd(e, phi_n) == 1:
         if ex_euclid(phi_n, e)[0] == 1:
             return e
 
@@ -104,8 +109,8 @@ def decrypt(cipher_text, pri_key):
 
 if __name__ == '__main__':
     pub, pri = key_gen()
-    plain_text = 123
-    c = encrypt(plain_text, pub)
+    plain = 123
+    c = encrypt(plain, pub)
     print(c)
     m = decrypt(c, pri)
     print(m)
