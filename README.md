@@ -8,7 +8,7 @@ $$\varphi(n)=(p-1)(q-1)$$
 $$d=e^{-1}\ mod\varphi(n)$$
 取公钥为$n$,$e$.密钥为$d$($p$,$q$不再需要,可以销毁).
 加密:将明文分组,各组在$mod\ n$下,可唯一地表示出来(以二元数字表示,选$2$的最大幂小于$n$).可用明文集为
-$$A_z=\{m:1\le m< n,(m,n)=1\}$$
+$$A_z=\lbrace m:1\le m< n,(m,n)=1\rbrace$$
 注意,$(m,n)\ne1$是很危险的.$m\in A_z$的概率
 $$\frac{\varphi(n)}{n}=\frac{(p-1)(q-1)}{pq}=1-\frac{1}{p}-\frac{1}{q}+\frac{1}{pq}\rightarrow 1$$
 密文
