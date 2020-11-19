@@ -109,8 +109,9 @@ def decrypt(cipher_text, pri_key):
 
 if __name__ == '__main__':
     pub, pri = key_gen()
-    plain = 123
-    c = encrypt(plain, pub)
-    print(c)
-    m = decrypt(c, pri)
-    print(m)
+    print('公钥是: ', pub)
+    plain = int(input('请输入明文m < n\n> '))
+    cipher = encrypt(plain, pub)
+    print('密文c = ', cipher)
+    plain = decrypt(cipher, pri)
+    print('明文m = ', plain)
