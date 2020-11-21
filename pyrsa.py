@@ -3,23 +3,23 @@ import random
 
 # 密钥的产生
 def key_gen():
-    p = prime_gen(1000)
-    q = prime_gen(1000)
+    p = prime_gen()
+    q = prime_gen()
     n = p * q
     phi_n = (p - 1) * (q - 1)
     e = e_gen(phi_n)
-    d = d_gen(phi_n, e)
+    d = ex_euclid(phi_n, e)[2]
     pub_key = (e, n)
     pri_key = (d, n)
     return pub_key, pri_key
 
 
-# 素数的产生
-def prime_gen(prime_range):
+# 大素数的产生
+def prime_gen():
     while True:
-        result = random.randint(2, prime_range)
-        if result % 2 != 0 and fermat_primality_test(result, 10):
-            return result
+        prime = random.randint(3, 1000)  # p, q的选取在1000以内
+        if prime % 2 != 0 and fermat_primality_test(prime, 10):
+            return prime
 
 
 # 费马素性检验
@@ -54,11 +54,6 @@ def e_gen(phi_n):
             return e
 
 
-# d的产生, d * e === 1 mod phi_n
-def d_gen(phi_n, e):
-    return ex_euclid(phi_n, e)[2]
-
-
 # 扩展欧几里得算法
 def ex_euclid(a, b):
     """
@@ -80,7 +75,7 @@ def ex_euclid(a, b):
     return x3, x1, x2
 
 
-# 快速模平方算法
+# 模重复平方法
 def fast_mod(x, a, n):
     """
     :param x: 整数
