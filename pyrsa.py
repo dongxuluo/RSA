@@ -8,7 +8,7 @@ def key_gen():
     n = p * q
     phi_n = (p - 1) * (q - 1)
     e = e_gen(phi_n)
-    d = ex_euclid(phi_n, e)[2]
+    d = ext_euclid(phi_n, e)[2]
     pub_key = (e, n)
     pri_key = (d, n)
     return pub_key, pri_key
@@ -26,8 +26,8 @@ def prime_gen():
 def fermat_primality_test(m, k):
     for i in range(k):
         a = random.randint(2, m - 2)
-        # g = gcd(a, m)
-        g = ex_euclid(a, m)[0]
+        # g = euclid(a, m)
+        g = ext_euclid(a, m)[0]
         if g != 1:
             return False
         else:
@@ -39,23 +39,32 @@ def fermat_primality_test(m, k):
 
 
 # # 欧几里得算法
-# def gcd(a, b):
-#     while b:
-#         a, b = b, a % b
-#     return a
+# def euclid(a, b):
+#     """
+#     :param a: 整数
+#     :param b: 整数a > b >= 0
+#     :return: a和b的最大公约数(a, b)
+#     """
+#     x = a
+#     y = b
+#     while y != 0:
+#         r = x % y
+#         x = y
+#         y = r
+#     return x
 
 
 # e的产生, 1 < e < phi_n, gcd(phi_n, e) = 1
 def e_gen(phi_n):
     while True:
         e = random.randint(2, phi_n)
-        # if gcd(e, phi_n) == 1:
-        if ex_euclid(phi_n, e)[0] == 1:
+        # if euclid(e, phi_n) == 1:
+        if ext_euclid(phi_n, e)[0] == 1:
             return e
 
 
 # 扩展欧几里得算法
-def ex_euclid(a, b):
+def ext_euclid(a, b):
     """
     :param a: 整数
     :param b: 整数, a > b >= 0
