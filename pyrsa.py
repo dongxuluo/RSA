@@ -103,19 +103,23 @@ def fast_mod(x, a, n):
 
 # 加密
 def encrypt(plain_text, pub_key):
-    return fast_mod(plain_text, pub_key[0], pub_key[1])
+    e, n = pub_key
+    cipher_text = fast_mod(plain_text, e, n)
+    return cipher_text
 
 
 # 解密
 def decrypt(cipher_text, pri_key):
-    return fast_mod(cipher_text, pri_key[0], pri_key[1])
+    d, n = pri_key
+    plain_text = fast_mod(cipher_text, d, n)
+    return plain_text
 
 
 if __name__ == '__main__':
     pub, pri = key_gen()
-    print('公钥是: ', pub)
+    print('公钥是:', pub)
     plain = int(input('请输入明文m < n\n> '))
     cipher = encrypt(plain, pub)
     print('密文c = ', cipher)
     plain = decrypt(cipher, pri)
-    print('明文m = ', plain)
+    print('解密后的明文m = ', plain)
